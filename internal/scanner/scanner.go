@@ -17,7 +17,7 @@ type CommandRunner interface {
 }
 
 // ScanImage scans a Docker container image for vulnerabilities using Trivy
-func ScanImage(imageName string, options ScanOptions, runner CommandRunner) error {
+func ScanImage(imageName string, options ScanOptions, runner CommandRunner) (int, error) {
 	log.Printf("Pulling image: %s", imageName)
 
 	if !options.SkipPull {
@@ -26,7 +26,7 @@ func ScanImage(imageName string, options ScanOptions, runner CommandRunner) erro
 		pullOutput, pullErr := pullCmd.CombinedOutput()
 		if pullErr != nil {
 			log.Fatalf("Error pulling image: %v\n%s", pullErr, pullOutput)
-			return fmt.Errorf("error pulling image: %v\n%s", pullErr, pullOutput)
+			return 0, fmt.Errorf("error pulling image: %v\n%s", pullErr, pullOutput)
 		}
 	}
 
@@ -39,12 +39,12 @@ func ScanImage(imageName string, options ScanOptions, runner CommandRunner) erro
 	scanOutput, scanErr := trivyCmd.CombinedOutput()
 	if scanErr != nil {
 		log.Fatalf("Error scanning image: %v\n%s", scanErr, scanOutput)
-		return fmt.Errorf("error scanning image: %v\n%s", scanErr, scanOutput)
+		return 0, fmt.Errorf("error scanning image: %v\n%s", scanErr, scanOutput)
 	}
 
 	// Parse Trivy output for vulnerabilities (you can extend this part)
 	vulnerabilities := strings.Count(string(scanOutput), "VulnerabilityID")
 	log.Printf("Vulnerabilities found: %d", vulnerabilities)
 
-	return nil
+	return vulnerabilities, nil
 }

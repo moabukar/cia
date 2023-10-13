@@ -4,11 +4,21 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"os/exec"
 	"time"
 
 	"github.com/moabukar/cia/internal/scanner"
 	"github.com/urfave/cli"
 )
+
+type RealCommandRunner struct{}
+
+var lastScanVulnerabilities int
+
+func (r *RealCommandRunner) RunCommand(name string, arg ...string) ([]byte, error) {
+	cmd := exec.Command(name, arg...)
+	return cmd.CombinedOutput()
+}
 
 func NewApp(version string, start time.Time) *cli.App {
 	app := cli.NewApp()
@@ -45,11 +55,21 @@ func NewApp(version string, start time.Time) *cli.App {
 					SkipPull: c.Bool("skip-pull"),
 				}
 
-				err := scanner.ScanImage(imageName, options)
+				// err := scanner.ScanImage(imageName, options, &RealCommandRunner{})
+				// if err != nil {
+				// 	log.Fatalf("Error scanning image: %v", err)
+				// 	return fmt.Errorf("error scanning image: %v", err)
+				// }
+
+				vulns, err := scanner.ScanImage(imageName, options, &RealCommandRunner{})
 				if err != nil {
 					log.Fatalf("Error scanning image: %v", err)
 					return fmt.Errorf("error scanning image: %v", err)
 				}
+
+				log.Printf("Vulnerabilities found: %d", vulns)
+
+				// lastScanVulnerabilities = vulns // Update the global variable
 
 				return nil
 			},
@@ -58,7 +78,12 @@ func NewApp(version string, start time.Time) *cli.App {
 			Name:  "report",
 			Usage: "Generate a report of the last scan",
 			Action: func(c *cli.Context) error {
-				// Your logic for generating a report goes here.
+				format := c.String("format")
+				if format == "json" {
+					fmt.Printf("{\"vulnerabilities\": %d}\n", lastScanVulnerabilities)
+				} else {
+					fmt.Printf("Vulnerabilities found: %d\n", lastScanVulnerabilities)
+				}
 				return nil
 			},
 		},
