@@ -1,8 +1,6 @@
 # Container Image Analyser (CIA)
 
-# Container Image Analyzer (CIA)
-
-Container Image Analyzer (CIA) is a lightweight CLI tool designed to help DevOps engineers and developers analyze Docker container images for vulnerabilities and potential issues. It simplifies the process of ensuring the security and quality of containerized applications.
+Container Image Analyser (CIA) is a lightweight CLI tool designed to help DevOps engineers and developers analyse Docker container images for vulnerabilities and potential issues. It simplifies the process of ensuring the security and quality of containerized applications.
 
 ## Table of Contents
 
@@ -44,8 +42,12 @@ cia scan my-container-image:latest
 cia/
 ├── cmd/
 │   └── cia/
-│       └── main.go               # Entry point
+│       └── main.go               # Entry point of the CLI application
 ├── internal/
+│   ├── cmd/                      # Command-related logic
+│   │   └── ...
+│   ├── cli/                      # CLI-specific code
+│   │   └── ...
 │   ├── scanner/
 │   │   ├── scanner.go           # Image scanning logic
 │   │   └── vulnerabilities.go   # Vulnerability database integration
@@ -55,12 +57,12 @@ cia/
 ├── data/
 │   └── vulnerabilities.json     # Local copy of vulnerability database (optional)
 ├── tests/
-│   ├── unit/  
-│   └── integration/             
-├── README.md                   
-├── LICENSE                      
-├── .gitignore              
-├── go.mod                        
-└── go.sum                        
+│   ├── unit/      
+│   └── integration/        
+├── README.md                 
+├── LICENSE                       
+├── .gitignore                
+├── go.mod                    
+└── go.sum                       
 
 ```
