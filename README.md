@@ -1,5 +1,12 @@
 # Container Image Analyser (CIA)
 
+[![PkgGoDev](https://pkg.go.dev/badge/github.com/moabukar/cia)](https://pkg.go.dev/mod/github.com/moabukar/cia)
+[![Go Report Card](https://goreportcard.com/badge/github.com/moabukar/cia)](https://goreportcard.com/report/github.com/moabukar/cia)
+[![Docker Pulls](https://img.shields.io/docker/pulls/moabukar/cia.svg)](https://hub.docker.com/r/moabukar/cia/)
+[![test](https://github.com/moabukar/cia/actions/workflows/test.yml/badge.svg)](https://github.com/moabukar/cia/actions/workflows/test.yml)
+[![Coverage Status](https://coveralls.io/repos/github/moabukar/cia/badge.svg?branch=main)](https://coveralls.io/github/moabukar/cia?branch=main)
+[![release](https://github.com/moabukar/cia/actions/workflows/release.yml/badge.svg)](https://github.com/moabukar/cia/actions/workflows/release.yml)
+
 Container Image Analyser (CIA) is a lightweight CLI tool designed to help DevOps engineers and developers analyse Docker container images for vulnerabilities and potential issues. It simplifies the process of ensuring the security and quality of containerized applications.
 
 ## Table of Contents
