@@ -12,10 +12,11 @@ RUN go build -o cia
 FROM alpine:latest
 
 # Set the Current Working Directory
-WORKDIR /root/
+WORKDIR /
 
-# Copy the pre-built binary from the builder stage
 COPY --from=builder /app/cia .
 
-# Command to run the executable
+# nobody user
+USER 65534 
+
 CMD ["./cia"]
