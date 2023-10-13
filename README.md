@@ -23,13 +23,18 @@ Container Image Analyser (CIA) is a lightweight CLI tool designed to help DevOps
 ## 📝 Usage
 
 ```bash
+~$ cia
+
 NAME:
-   cia - Analyse container images
+   cia -  CIA is your go-to CLI tool for analyzing container images. It can pull images, scan for vulnerabilities, and output reports in multiple formats.
 
 USAGE:
    cia [global options] command [command options] [arguments...]
 
 COMMANDS:
+   scan     Scans the given container image
+   report   Generate a report of the last scan
+   version  Show the version of CIA tool
    help, h  Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:
@@ -39,40 +44,6 @@ GLOBAL OPTIONS:
 
 ```
 
-## CLI usage
-
-```bash
-./cia --help
-Container Image Analyser (CIA) - Deep dive into your container images!
-
-Description:
-  CIA is your go-to CLI tool for analyzing container images. It can pull images, scan for vulnerabilities, and output reports in multiple formats.
-
-Usage:
-  ./cia [command] [flags]
-
-Commands:
-  scan          Scans the given container image
-  report        Generate a report of the last scan
-  version       Show the version of CIA tool
-
-Global Flags:
-  -f, --format string      Choose report format. Options: json, xml (default "json")
-  -h, --help               Show help information for CIA or a specific command
-  -s, --skip-pull          Skip pulling the image from the registry, use local image
-  -v, --verbose            Enable verbose output
-
-Examples:
-  ./cia scan ubuntu:latest             Scans the 'ubuntu:latest' image
-  ./cia report -f xml                  Generate the last scan report in XML format
-  ./cia scan alpine:latest --skip-pull  Scans the 'alpine:latest' image without pulling it
-
-For more details and usage examples, visit https://github.com/moabukar/cia
-
-```
-
-## Getting Started
-
 ### Installation
 
 You can install CIA via `go get` or by downloading the binary release for your platform from the [Releases](https://github.com/moabukar/cia/releases) page.
@@ -80,40 +51,33 @@ You can install CIA via `go get` or by downloading the binary release for your p
 ```bash
 go get github.com/moabukar/cia
 
-## Usage
-
-```bash
-cia scan my-container-image:latest
-
 ```
 
 ## Directory structure
 
 ```bash
-cia/
-├── cmd/
-│   └── cia/
-│       └── main.go               # Entry point of the CLI application
-├── internal/
-│   ├── cmd/                      # Command-related logic
-│   │   └── ...
-│   ├── cli/                      # CLI-specific code
-│   │   └── ...
-│   ├── scanner/
-│   │   ├── scanner.go           # Image scanning logic
-│   │   └── vulnerabilities.go   # Vulnerability database integration
-│   └── report/
-│       ├── report.go            # Report generation logic
-│       └── remediation.go       # Remediation suggestions
-├── data/
-│   └── vulnerabilities.json     # Local copy of vulnerability database (optional)
-├── tests/
-│   ├── unit/      
-│   └── integration/        
-├── README.md                 
-├── LICENSE                       
-├── .gitignore                
-├── go.mod                    
-└── go.sum                       
+.
+├── CHANGELOG.md
+├── Dockerfile
+├── LICENSE
+├── Makefile
+├── README.md
+├── cmd
+│   └── cia
+│       ├── cia
+│       └── main.go
+├── data
+├── go.mod
+├── go.sum
+├── internal
+│   ├── cli
+│   │   └── main.go
+│   ├── cmd
+│   │   └── main.go
+│   ├── report
+│   │   └── report.go
+│   └── scanner
+│       └── scanner.go
+└── tests                    
 
 ```

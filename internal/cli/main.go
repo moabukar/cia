@@ -10,54 +10,11 @@ import (
 	"github.com/urfave/cli"
 )
 
-// func NewApp(version string, start time.Time) *cli.App {
-// 	app := cli.NewApp()
-// 	app.Name = "cia"
-// 	app.Version = version
-// 	app.Usage = "Analyse container images"
-// 	app.EnableBashCompletion = true
-
-// 	app.Flags = []cli.Flag{
-// 		&cli.StringFlag{
-// 			Name:  "format",
-// 			Usage: "Report format (json, xml)",
-// 			Value: "json",
-// 		},
-// 		&cli.BoolFlag{
-// 			Name:  "skip-pull",
-// 			Usage: "Skip pulling image before scanning",
-// 		},
-// 	}
-
-// 	app.Action = func(c *cli.Context) error {
-// 		imageName := c.Args().Get(0)
-// 		if imageName == "" {
-// 			log.Fatalf("Image name is required")
-// 			return fmt.Errorf("image name is required")
-// 		}
-
-// 		options := scanner.ScanOptions{
-// 			Format:   c.String("format"),
-// 			SkipPull: c.Bool("skip-pull"),
-// 		}
-
-// 		err := scanner.ScanImage(imageName, options)
-// 		if err != nil {
-// 			log.Fatalf("Error scanning image: %v", err)
-// 			return fmt.Errorf("error scanning image: %v", err)
-// 		}
-
-// 		return nil
-// 	}
-
-// 	return app
-// }
-
 func NewApp(version string, start time.Time) *cli.App {
 	app := cli.NewApp()
 	app.Name = "cia"
 	app.Version = version
-	app.Usage = "Analyse container images"
+	app.Usage = " CIA is your go-to CLI tool for analyzing container images. It can pull images, scan for vulnerabilities, and output reports in multiple formats."
 	app.EnableBashCompletion = true
 
 	app.Flags = []cli.Flag{
