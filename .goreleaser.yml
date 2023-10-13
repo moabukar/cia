@@ -1,0 +1,33 @@
+before:
+  hooks:
+    # Install dependencies here, or tidy up
+    - go mod tidy
+    - go generate ./...
+
+builds:
+  - id: "cia"
+    main: "./cmd/cia/main.go"
+    binary: "cia"
+    goos:
+      - linux
+      - windows
+      - darwin
+    goarch:
+      - amd64
+      - 386
+
+archives:
+  - id: "cia"
+    format: tar.gz
+    format_overrides:
+      - goos: windows
+        format: zip
+    files:
+      - LICENSE
+      - README.md
+
+dockers:
+  - image_templates:
+      - "moabukar/cia:{{ .Tag }}"
+      - "moabukar/cia:latest"
+    dockerfile: "Dockerfile"

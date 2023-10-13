@@ -2,13 +2,45 @@ package scanner
 
 import (
 	"fmt"
+	"log"
+	"os/exec"
+	"strings"
 )
 
-// ScanImage scans a Docker container image for vulnerabilities
-func ScanImage(imageName string) error {
-	// Placeholder logic, replace with actual scanning code
-	fmt.Printf("Scanning image: %s\n", imageName)
-	// Simulate scanning...
-	fmt.Println("Vulnerabilities found: 3")
+type ScanOptions struct {
+	Format   string
+	SkipPull bool
+}
+
+// ScanImage scans a Docker container image for vulnerabilities using Trivy
+func ScanImage(imageName string, options ScanOptions) error {
+	log.Printf("Pulling image: %s", imageName)
+
+	if !options.SkipPull {
+		log.Printf("Pulling image: %s", imageName)
+		pullCmd := exec.Command("docker", "pull", imageName)
+		pullOutput, pullErr := pullCmd.CombinedOutput()
+		if pullErr != nil {
+			log.Fatalf("Error pulling image: %v\n%s", pullErr, pullOutput)
+			return fmt.Errorf("error pulling image: %v\n%s", pullErr, pullOutput)
+		}
+	}
+
+	// First, pull the Docker image
+
+	log.Printf("Scanning image: %s", imageName)
+
+	// Run Trivy command to scan the image
+	trivyCmd := exec.Command("trivy", "image", "--format", "json", imageName)
+	scanOutput, scanErr := trivyCmd.CombinedOutput()
+	if scanErr != nil {
+		log.Fatalf("Error scanning image: %v\n%s", scanErr, scanOutput)
+		return fmt.Errorf("error scanning image: %v\n%s", scanErr, scanOutput)
+	}
+
+	// Parse Trivy output for vulnerabilities (you can extend this part)
+	vulnerabilities := strings.Count(string(scanOutput), "VulnerabilityID")
+	log.Printf("Vulnerabilities found: %d", vulnerabilities)
+
 	return nil
 }
