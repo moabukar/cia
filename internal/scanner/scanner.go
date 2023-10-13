@@ -12,8 +12,12 @@ type ScanOptions struct {
 	SkipPull bool
 }
 
+type CommandRunner interface {
+	RunCommand(name string, arg ...string) (output []byte, err error)
+}
+
 // ScanImage scans a Docker container image for vulnerabilities using Trivy
-func ScanImage(imageName string, options ScanOptions) error {
+func ScanImage(imageName string, options ScanOptions, runner CommandRunner) error {
 	log.Printf("Pulling image: %s", imageName)
 
 	if !options.SkipPull {
